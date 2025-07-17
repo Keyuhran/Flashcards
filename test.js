@@ -1,4 +1,4 @@
-const {uploadFlashcard} = require('./controllers/dataController');
+const {uploadFlashcard} = require('./controllers/flashcardController');
 
 const app = express();
 const port = process.env.PORT || 3000;
