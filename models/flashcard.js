@@ -1,9 +1,8 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-
+require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 
-const supabaseUrl = 'https://gnhhkqqahqwdfszpiyfb.supabase.co';
+const supabaseUrl = 'https://bzmntipyptrbuojeqhxv.supabase.co';
 const supabaseKey = process.env.SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -40,16 +39,19 @@ class Flashcard {
             console.error('Error fetching flashcards:', error);
             throw error;
         }
-        return new data.map(flashcardData => new flashcard(
-            flashcardData.id, 
+        return data.map(flashcardData =>
+        new Flashcard(
+            flashcardData.id,
             flashcardData.subject,
             flashcardData.difficulty,
-            flashcardData.question, 
-            flashcardData.a1, 
+            flashcardData.question,
+            flashcardData.a1,
             flashcardData.a2,
-            flashcardData.a3, 
-            flashcardData.a4, 
-            flashcardData.answer));
+            flashcardData.a3,
+            flashcardData.a4,
+            flashcardData.answer
+        )
+        );
     }
 
 
@@ -65,7 +67,4 @@ class Flashcard {
     }
 }
 
-
-module.exports = {
-    Flashcard
-};
+module.exports = Flashcard;

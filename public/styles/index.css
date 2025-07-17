@@ -86,21 +86,22 @@ body, html {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  justify-items: stretch;
 }
 
 /* each rectangle icon card */
 .feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: var(--bg);
   backdrop-filter: blur(var(--blur));
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   height: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: #fff;
-  text-align: center;
+  text-decoration: none;      /* remove underline */
   cursor: pointer;
   transition: background .2s, transform .1s;
 }
@@ -114,4 +115,5 @@ body, html {
 .feature-card:hover {
   background: rgba(255,255,255,0.25);
   transform: translateY(-3px);
+  text-decoration: none;
 }

@@ -1,14 +1,7 @@
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-const { createClient } = require('@supabase/supabase-js');
-
-const supabaseUrl = 'https://gnhhkqqahqwdfszpiyfb.supabase.co';
-const supabaseKey = process.env.SUPABASE_KEY;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 const Flashcard = require('../models/flashcard');
+
 
 async function uploadFlashcard(req, res) {
     try {
@@ -22,13 +15,13 @@ async function uploadFlashcard(req, res) {
 }
 
 async function getFlashcards(req, res) {
-    try {
-        const flashcards = await Flashcard.getFlashcards();
-        res.status(200).json(flashcards);
-    } catch (error) {
-        console.error('Error fetching flashcards:', error);
-        res.status(500).json({ error: 'Failed to fetch flashcards' });
-    }
+  try {
+    const flashcards = await Flashcard.getFlashcards();
+    res.status(200).json(flashcards);
+  } catch (error) {
+    console.error('Error fetching flashcards:', error);
+    res.status(500).json({ error: 'Failed to fetch flashcards' });
+  }
 }
 
 async function deleteFlashcard(req, res) {

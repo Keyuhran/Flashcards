@@ -1,3 +1,4 @@
+
 <!-- flashcards.html -->
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +10,7 @@
   <link rel="stylesheet" href="styles/flashcards.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
-<body>
+<body onLoad="">
   <div class="flashcards-screen">
     <!-- Search Bar -->
     <header class="home-header">
@@ -43,23 +44,9 @@
 
     <!-- List of Packs -->
     <main class="flashcard-list">
-      <!-- Example Item -->
-      <div class="flashcard-item">
-        <img src="thumbnails/biology.jpg" alt="Biology thumbnail" class="thumbnail">
-        <div class="flashcard-info">
-          <h3 class="subject">Biology Basics</h3>
-          <div class="details">Difficulty: Easy • 20 Questions</div>
-          <div class="rating">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-            <i class="far fa-star"></i>
-          </div>
-        </div>
-      </div>
-      <!-- Repeat .flashcard-item for each pack -->
+      <div id="flashcard-container" class="flashcard-item"> </div>
     </main>
   </div>
+  <script src="scripts/flashcards.js" defer></script>
 </body>
 </html>
