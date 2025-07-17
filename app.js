@@ -12,7 +12,13 @@ app.use(cors());
 app.use(express.json());
 
 
+const staticPath = path.join(__dirname, 'public');    
+app.use(express.static(staticPath));
 
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticPath, 'index.html'));
+});
 
 
 app.listen(port, '0.0.0.0', () => {
