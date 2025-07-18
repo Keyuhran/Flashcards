@@ -7,6 +7,8 @@ const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const app = express();
 const FlashcardController = require('./controllers/flashcardController');
+const DeckController = require('./controllers/deckController');
+const userController = require('./controllers/userController');
 const port = process.env.PORT || 3000;
 
 app.use(cors());
@@ -17,6 +19,9 @@ const staticPath = path.join(__dirname, 'public');
 
 app.post('/upload', FlashcardController.uploadFlashcard);
 app.get('/get-flashcards', FlashcardController.getFlashcards);
+app.get('/get-decks', DeckController.getDecks);
+app.post('/add-deck', DeckController.addDeck);
+app.get('/user-login', userController.login);
 
 
 

@@ -23,7 +23,7 @@ class Flashcard {
 
     static async addFlashcard(id, subject, difficulty, answer, question, a1, a2, a3, a4,) {
         const { error } = await supabase
-        .from('Flashcards')
+        .from('flashcards')
         .insert({ id: id, subject: subject, difficulty: difficulty, answer: answer, question: question, a1: a1, a2: a2, a3: a3, a4: a4 });
         if (error) {
             console.error('Error adding flashcard:', error);
@@ -33,7 +33,7 @@ class Flashcard {
 
     static async getFlashcards() {
         const { data, error } = await supabase
-        .from('Flashcards')
+        .from('flashcards')
         .select('*');
         if (error) {
             console.error('Error fetching flashcards:', error);
@@ -57,7 +57,7 @@ class Flashcard {
 
     static async deleteFlashcard(id) {
         const { error } = await supabase
-        .from('Flashcards')
+        .from('flashcards')
         .delete()
         .eq('id', id);
         if (error) {
