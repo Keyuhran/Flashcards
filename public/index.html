@@ -4,23 +4,26 @@
   <meta charset="utf-8">
   <title>Login • Flashcards</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- shared styles -->
   <link rel="stylesheet" href="styles/index.css">
-  <!-- login-specific styles -->
   <link rel="stylesheet" href="styles/login.css">
 </head>
 <body>
   <div class="login-screen">
     <div class="login-card">
       <h2 class="login-title">Welcome Back</h2>
-      <form class="login-form">
+
+      <!-- 1) add id="loginForm" -->
+      <form id="loginForm" class="login-form">
         <label>
-          <input type="text" class="login-input" placeholder="Username or Email" required>
+          <!-- 2) give it a name so form.email works -->
+          <input type="email" name="email" class="login-input" placeholder="Username or Email" required>
         </label>
+
         <label>
-          <input type="password" class="login-input" placeholder="Password" required>
+          <!-- 2) name="password" -->
+          <input type="password" name="password" class="login-input" placeholder="Password" required>
         </label>
+
         <div class="login-options">
           <label class="checkbox-container">
             <input type="checkbox">
@@ -29,9 +32,16 @@
           </label>
           <a href="#" class="forgot-link">Forgot password?</a>
         </div>
+
         <button type="submit" class="login-btn">Log In</button>
       </form>
+
+      <!-- 3) messaging container -->
+      <div id="message" class="login-message"></div>
     </div>
   </div>
+
+  <!-- make sure this path actually points to your JS file -->
+  <script src="scripts/index.js"></script>
 </body>
 </html>
