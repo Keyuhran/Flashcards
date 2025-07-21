@@ -10,7 +10,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 class User {
-    constructor(id,email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8) {
+    constructor(id,email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -22,6 +22,7 @@ class User {
         this.subject6 = subject6;
         this.subject7 = subject7;
         this.subject8 = subject8;
+        this.role = role; 
 
 }
 
@@ -30,7 +31,7 @@ static async login(email, password) {
       // 1. Fetch the user row
       const { data, error } = await supabase
         .from('users')
-        .select('id, email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8')
+        .select('id, email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8, role')
         .eq('email', email)
         .single();
 
@@ -60,7 +61,9 @@ static async login(email, password) {
         data.subject5,
         data.subject6,
         data.subject7,
-        data.subject8
+        data.subject8,
+        data.role
+
       );
 
     } catch (err) {

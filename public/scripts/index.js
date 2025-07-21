@@ -20,11 +20,16 @@ form.addEventListener('submit', async e => {
     });
 
     const data = await res.json();
+    console.log('🚥 login payload →', data);
     if (res.ok) {
         messageDiv.style.color = 'green';
         messageDiv.textContent = data.message;
-        // redirect to your home.html
-        window.location.href = 'home.html';
+        if (data.role === 'Admin') {
+            window.location.href = 'admin.html';
+        }
+        else {
+            window.location.href = 'home.html';
+        }
     } else {
         throw new Error(data.error || 'Login failed');
     }

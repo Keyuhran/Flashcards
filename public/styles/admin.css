@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* same design tokens */
+:root {
+  --accent: #000000;
+  --bg: rgba(255, 255, 255, 0.15);
+  --blur: 16px;
+  --radius: 16px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.1);
+  --font: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0; padding: 0;
+  width: 100%; height: 100%;
+  font-family: var(--font);
+  background: radial-gradient(circle at top left, #000000, #000000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-screen {
+  width: 100%;
+  max-width: 540px;
+  padding: 1rem;
+}
+
+/* header with search + profile */
+.home-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* centered search bar */
+.search-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+}
+.search-bar {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--bg);
+  backdrop-filter: blur(var(--blur));
+  color: #fff;
+  font-size: 0.95rem;
+}
+.search-bar::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+.search-icon {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+}
+
+/* profile button top-right */
+.profile-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: transform .2s;
+}
+.profile-btn:hover {
+  transform: scale(1.1);
+}
+
+/* 3x3 grid of feature cards */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  justify-items: stretch;
+}
+
+/* each rectangle icon card */
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  height: 100px;
+  color: #fff;
+  text-decoration: none;      /* remove underline */
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+.feature-card i {
+  margin-bottom: 0.4rem;
+}
+.feature-card span {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.feature-card:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-3px);
+  text-decoration: none;
+}

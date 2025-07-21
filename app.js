@@ -57,7 +57,10 @@ app.post('/user-login', async (req, res) => {
       req.session.oneTime = true;
     }
 
-    return res.status(200).json({ message: 'Login successful' });
+    res.status(200).json({
+      message: 'Login successful',
+      role:    user.role 
+    });
   } catch (error) {
     console.error('Login error:', error);
     return res.status(401).json({ error: 'Invalid credentials' });

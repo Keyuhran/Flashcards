@@ -1,21 +1,39 @@
 /* styles/flashcards.css */
+
+/* ---------------------------------------------------
+   Outer container: center & cap width
+   --------------------------------------------------- */
 .flashcards-screen {
   width: 100%;
-  max-width: 540px;
+  max-width: 960px;       /* cap page width */
   padding: 1rem;
-  margin: 0 auto;
+  margin: 0 auto;         /* center it */
 }
 
-/* Reuse header/search styles from index.css */
-.home-header {
-  margin-bottom: 1rem;
+/* ---------------------------------------------------
+   Search bar container (inherits max-width above) 
+   --------------------------------------------------- */
+.home-header .search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-/* Filters row */
+/* (you may already have .search-bar styling in index.css)
+   just ensure it’s fluid within its parent: */
+.search-bar {
+  flex: 1;
+  min-width: 0;           /* allow shrinking */
+}
+
+/* ---------------------------------------------------
+   Filters row: match search‐bar look & feel
+   --------------------------------------------------- */
 .filters-container {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  width: 100%;
 }
 
 .filter {
@@ -28,22 +46,52 @@
   color: #fff;
   font-size: 0.9rem;
   cursor: pointer;
+  text-align: center;
 }
 
+/* dropdown text should be dark for readability */
 .filter option {
   color: #000;
 }
 
-/* Vertical list */
+/* ---------------------------------------------------
+   Deck grid: max 3 columns on large screens
+   --------------------------------------------------- */
 .flashcard-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  /* shrink‑wrap the grid to its columns + padding */
+  width: fit-content;
+  margin: 0 auto;                /* center it */
+  padding: 1rem;                   /* extra breathing room */
+  gap: 1rem;                       /* between cards */
+  grid-template-columns: repeat(3, 1fr);
+
+  /* this gives you the same blurred pill‑box look */
+  background: var(--bg);
+  backdrop-filter: blur(var(--blur));
+  border-radius: var(--radius);
 }
 
-/* Each pack card */
+/* 2 columns when viewport ≤ 900px */
+@media (max-width: 900px) {
+  .flashcard-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 1 column when viewport ≤ 600px */
+@media (max-width: 600px) {
+  .flashcard-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------
+   Deck card styling (no changes here from last time)
+   --------------------------------------------------- */
 .flashcard-item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background: var(--bg);
   backdrop-filter: blur(var(--blur));
@@ -59,17 +107,11 @@
   transform: translateY(-2px);
 }
 
-.thumbnail {
-  width: 60px;
-  height: 60px;
-  border-radius: var(--radius);
-  object-fit: cover;
-  margin-right: 1rem;
-}
-
 .flashcard-info {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  margin-right: 1rem;
 }
 
 .subject {
@@ -84,14 +126,20 @@
   margin-top: 0.25rem;
 }
 
-.rating {
-  margin-top: 0.5rem;
+/* trash icon button */
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
-.rating .fa-star,
-.rating .fa-star-half-alt,
-.rating .far.fa-star {
-  margin-right: 0.2rem;
-  font-size: 0.9rem;
-  color: #ffd700;
+.delete-button .fa-trash {
+  font-size: 1.2rem;
+  color: rgba(255, 80, 80, 0.9);
+  transition: color .2s;
+}
+
+.delete-button .fa-trash:hover {
+  color: #ff4d4d;
 }
