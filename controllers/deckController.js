@@ -1,13 +1,16 @@
  const Deck = require('../models/deck');
 
-async function getDecks(req,res) {
-    try {
-        const decks = await Deck.getDecks();
-        res.status(200).json(decks);
-    } catch (error) {
-        console.error('Error fetching decks:', error);
-        res.status(500).json({ error: 'Failed to fetch decks' });
-    }
+async function getDecks(req, res) {
+  try {
+    const email = req.session.userEmail;
+    if (!email) return res.status(401).json({ error: 'Not logged in' });
+
+    const decks = await Deck.getDecks(email);
+    res.status(200).json(decks);
+  } catch (error) {
+    console.error('Error fetching decks:', error);
+    res.status(500).json({ error: 'Failed to fetch decks' });
+  }
 }
 
 async function addDeck(req, res) {

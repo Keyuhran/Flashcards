@@ -36,7 +36,7 @@ app.use(
 // API Routes
 // ———————————————————————————————————————————————————
 app.post('/upload',        FlashcardController.uploadFlashcard);
-app.get('/get-flashcards', FlashcardController.getFlashcards);
+app.get('/get-decks', ensureLoggedIn, DeckController.getDecks);
 app.get('/get-decks',      DeckController.getDecks);
 app.post('/add-deck',      DeckController.addDeck);
 
@@ -48,6 +48,7 @@ app.post('/user-login', async (req, res) => {
 
     // mark them as logged in
     req.session.userId = user.id;
+    req.session.userEmail = user.email;
 
     if (rememberMe) {
       // persistent for 7 days

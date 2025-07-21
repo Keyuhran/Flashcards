@@ -28,22 +28,18 @@ class Deck {
         }
     }
 
-    static async getDecks() {
-        const { data, error } = await supabase
-        .from('decks')
-        .select('*');
-        if (error) {
-            console.error('Error fetching decks:', error);
-            throw error;
-        }
-        return data.map(deckData =>
-            new Deck(
-                deckData.id,
-                deckData.name,
-                deckData.subject
-            )
-        );
+    static async getDecks(user_email) {
+    const { data, error } = await supabase
+      .from('decks')
+      .select('id, name, subject')
+      .eq('user_email', user_email);
+
+    if (error) {
+      console.error('Error fetching decks:', error);
+      throw error;
     }
+    return data.map(d => new Deck(d.id, d.name, d.subject));
+  }
 }
 
 module.exports = Deck;
