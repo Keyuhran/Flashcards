@@ -1,48 +1,55 @@
+// public/scripts/flashcards.js
 console.log('⚡ flashcards.js loaded');
+
+const params   = new URLSearchParams(window.location.search);
+const deckName = params.get('deckName');
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    
-
-
-    async function loadCards() {
-        console.log('➔ loadCards() running…');
-        console.log('➔ about to fetch /get-flashcards');
-        try {
-            const response = await fetch('/get-flashcards');
-            console.log('➔ fetch returned:', response.status);
-            if (!response.ok) throw new Error(response.statusText);
-            const flashcards = await response.json();
-            console.log('➔ JSON payload:', flashcards);
-            displayFlashcards(flashcards);
-        } catch (error) {
-            console.error('Error loading flashcards:', error);
-        }
+  async function loadCards() {
+    console.log(`➔ Fetching cards for deck: ${deckName}`);
+    try {
+      const res = await fetch(
+        `/get-flashcards?deckName=${encodeURIComponent(deckName)}`
+      );
+      if (!res.ok) throw new Error(res.statusText);
+      const flashcards = await res.json();
+      console.log('➔ cards payload:', flashcards);
+      displayFlashcards(flashcards);
+    } catch (err) {
+      console.error('Error loading flashcards:', err);
     }
+  }
 
-    function displayFlashcards(flashcards) {
-        const flashcardContainer = document.getElementById('flashcard-container');
-        flashcardContainer.innerHTML = ''; // Clear existing content
+  function displayFlashcards(flashcards) {
+    const container = document.getElementById('flashcard-container');
+    container.innerHTML = ''; // clear
 
-        flashcards.forEach(flashcard => {
-            const flashcardItem = document.createElement('div');
-            flashcardItem.className = 'flashcard-item';
-            flashcardItem.innerHTML = `
-                <h3>${flashcard.subject}</h3>
-                <p>${flashcard.question}</p>
-                <button class="delete-button" data-id="${flashcard.id}">Delete</button>
-            `;
-            flashcardContainer.appendChild(flashcardItem);
-        });
+    flashcards.forEach(card => {
+      const item = document.createElement('div');
+      item.className = 'flashcard-item';
+      item.innerHTML = `
+        <div class="flashcard-info">
+          <h3 class="subject">${card.subject}</h3>
+          <p class="details">${card.question}</p>
+        </div>
+        <button class="delete-button" data-id="${card.id}">
+          <i class="fas fa-trash"></i>
+        </button>
+      `;
+      container.appendChild(item);
+    });
 
-        // Add event listeners to delete buttons
-        const deleteButtons = document.querySelectorAll('.delete-button');
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const id = event.target.getAttribute('data-id');
-                await deleteFlashcard(id);
-            });
-        });
-    }
- loadCards();
+    // wire delete
+    container.querySelectorAll('.delete-button').forEach(btn => {
+      btn.addEventListener('click', async e => {
+        e.stopPropagation();
+        const id = btn.dataset.id;
+        await fetch(`/delete-flashcard?id=${id}`, { method: 'DELETE' });
+        loadCards();  // refresh
+      });
+    });
+  }
+
+  loadCards();
 });
-

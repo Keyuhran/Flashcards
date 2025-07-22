@@ -25,13 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
       item.className = 'flashcard-item';
       item.innerHTML = `
         <div class="flashcard-info">
-          <h3 class="subject">${deck.name}</h3>
-          <p class="details">${deck.subject}</p>
+            <h3 class="subject">${deck.name}</h3>
+            <p class="details">${deck.subject}</p>
         </div>
-        <button class="delete-button" data-id="${deck.id}">
-          <i class="fas fa-trash"></i>
-        </button>
+        <i class="fas fa-chevron-right"></i>
       `;
+    // navigate when clicked:
+    item.addEventListener('click', () => {
+     window.location.href = `flashcard-play.html?deckName=${encodeURIComponent(deck.name)}`;
+    });
       container.appendChild(item);
     });
 

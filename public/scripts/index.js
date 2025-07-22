@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 const form = document.getElementById('loginForm');
+const params   = new URLSearchParams(location.search);
+const returnTo = params.get('returnTo') || 'home.html';
 const messageDiv = document.getElementById('message');
 
 form.addEventListener('submit', async e => {
@@ -28,7 +30,7 @@ form.addEventListener('submit', async e => {
             window.location.href = 'admin.html';
         }
         else {
-            window.location.href = 'home.html';
+            window.location.href = returnTo;
         }
     } else {
         throw new Error(data.error || 'Login failed');

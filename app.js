@@ -35,10 +35,12 @@ app.use(
 // ———————————————————————————————————————————————————
 // API Routes
 // ———————————————————————————————————————————————————
-app.post('/upload',        FlashcardController.uploadFlashcard);
 app.get('/get-decks', ensureLoggedIn, DeckController.getDecks);
-app.get('/get-decks',      DeckController.getDecks);
 app.post('/add-deck',      DeckController.addDeck);
+
+app.post('/upload',        FlashcardController.uploadFlashcard);
+app.get('/get-flashcards', ensureLoggedIn, FlashcardController.getFlashcards);
+app.delete('/delete-flashcard', ensureLoggedIn, FlashcardController.deleteFlashcard);
 
 // Login endpoint
 app.post('/user-login', async (req, res) => {

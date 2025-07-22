@@ -31,28 +31,22 @@ class Flashcard {
         }
     }
 
-    static async getFlashcards() {
+    static async getFlashcards(deckName) {
         const { data, error } = await supabase
         .from('flashcards')
-        .select('*');
+        .select('id, subject, difficulty, question, a1, a2, a3, a4, answer')
+        .eq('deck_name', deckName);
+
         if (error) {
-            console.error('Error fetching flashcards:', error);
-            throw error;
+        console.error('Error fetching flashcards:', error);
+        throw error;
         }
-        return data.map(flashcardData =>
-        new Flashcard(
-            flashcardData.id,
-            flashcardData.subject,
-            flashcardData.difficulty,
-            flashcardData.question,
-            flashcardData.a1,
-            flashcardData.a2,
-            flashcardData.a3,
-            flashcardData.a4,
-            flashcardData.answer
-        )
-        );
+        return data.map(d => new Flashcard(
+        d.id, d.subject, d.difficulty, d.question,
+        d.a1, d.a2, d.a3, d.a4, d.answer
+        ));
     }
+
 
 
     static async deleteFlashcard(id) {

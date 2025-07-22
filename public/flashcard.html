@@ -1,50 +1,99 @@
 <!DOCTYPE html>
-
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="styles/flashcard.css">
-    </head>
-    <body>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
-<div class="quiz-screen">
-  <div class="quiz-card">
-    <header class="card-header">
-      <i class="fas fa-lightbulb header-icon"></i>
-      <span class="spacer"></span>
-      <button class="revise-btn"><i class="fas fa-book-open"></i></button>
-    </header>
-
-    <h2 class="question">
-      What is the definition of <span class="highlight">opportunity cost</span>?
-    </h2>
-
-    <div class="options">
-      <button class="option">A. The amount of money spent on a good</button>
-      <button class="option">B. The benefit gained from a decision</button>
-      <button class="option">C. The value of the next best alternative foregone</button>
-      <button class="option">D. The total revenue from selling a product</button>
-    </div>
-
-    <footer class="card-footer">
-      <button class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width: 8/19*100%"></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Practice • AQUA Flashcards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/index.css">
+  <link rel="stylesheet" href="styles/flashcard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+  <div class="play-screen">
+    <div class="card-container">
+      <div id="question" class="question">Loading...</div>
+      <div id="options" class="options"></div>
+      <div class="navigation">
+        <button id="prev"><i class="fas fa-chevron-left"></i></button>
+        <span class="counter" id="counter">0 / 0</span>
+        <button id="next"><i class="fas fa-chevron-right"></i></button>
       </div>
-      <button class="nav-btn"><i class="fas fa-chevron-right"></i></button>
-      <div class="progress-label">8 / 19</div>
-    </footer>
+    </div>
   </div>
-</div>
 
+  <script>
+    // Parse deckId from query string
+    const params = new URLSearchParams(window.location.search);
+    const deckId = params.get('deckId');
+    let cards = [];
+    let current = 0;
 
-        
-        <script src="flashcard.js" async defer></script>
-    </body>
+    async function fetchCards() {
+      try {
+        // endpoint should accept ?deckId=
+        const res = await fetch(`/get-flashcards?deckId=${deckId}`);
+        if (!res.ok) throw new Error(res.statusText);
+        cards = await res.json();
+        renderCard();
+      } catch (err) {
+        document.getElementById('question').textContent = 'Failed to load cards.';
+        console.error(err);
+      }
+    }
+
+    function renderCard() {
+      const qEl = document.getElementById('question');
+      const optsEl = document.getElementById('options');
+      const cntEl = document.getElementById('counter');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+
+      if (!cards.length) {
+        qEl.textContent = 'No cards to display.';
+        optsEl.innerHTML = '';
+        cntEl.textContent = '0 / 0';
+        prevBtn.disabled = nextBtn.disabled = true;
+        return;
+      }
+
+      const card = cards[current];
+      qEl.textContent = card.question;
+      cntEl.textContent = `${current + 1} / ${cards.length}`;
+
+      // enable/disable nav
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === cards.length - 1;
+
+      // render options
+      optsEl.innerHTML = '';
+      card.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          // mark selection
+          optsEl.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+        optsEl.appendChild(btn);
+      });
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      if (current > 0) {
+        current--;
+        renderCard();
+      }
+    });
+    document.getElementById('next').addEventListener('click', () => {
+      if (current < cards.length - 1) {
+        current++;
+        renderCard();
+      }
+    });
+
+    // initial load
+    fetchCards();
+  </script>
+</body>
 </html>
