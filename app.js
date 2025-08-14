@@ -4,6 +4,9 @@ const cors          = require('cors');
 const path          = require('path');
 const dotenv        = require('dotenv');
 const session       = require('express-session');
+const mongoose = require('mongoose')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
 const ensureLoggedIn = require('./public/scripts/login.js')
 
 const FlashcardController = require('./controllers/flashcardController');
@@ -12,6 +15,7 @@ const DeckController      = require('./controllers/deckController');
 dotenv.config();
 const app  = express();
 const port = process.env.PORT || 3000;
+
 
 // ———————————————————————————————————————————————————
 // Middleware

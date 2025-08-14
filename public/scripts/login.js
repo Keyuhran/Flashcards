@@ -8,7 +8,6 @@ function ensureLoggedIn(req, res, next) {
   if (req.session.oneTime) {
     // first protected request: consume the flag
     delete req.session.oneTime;
-    req.session.logoutOnNext = true;
     return next();
   }
 
