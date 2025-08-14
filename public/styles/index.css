@@ -16,9 +16,18 @@
 
 body, html {
   margin: 0; padding: 0;
-  width: 100%; height: 100%;
+  width: 100%; 
+  min-height: 100%;
   font-family: var(--font);
   background: radial-gradient(circle at top left, #8f2ff4, #878e9e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;            /* better on mobile browsers */
   display: flex;
   justify-content: center;
   align-items: center;

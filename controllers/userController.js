@@ -11,6 +11,20 @@ async function login(req, res) {
     }
 }
 
+
+async function registerUser(req,res) {
+    try {
+        const { email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8 } = req.body;
+        const user = await User.register(email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8);
+        res.status(201).json({ message: 'User registered successfully', user });
+    }
+    catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).json({ error: 'Failed to register user' });
+    }
+
+}
 module.exports = {
-    login
+    login,
+    registerUser
 };

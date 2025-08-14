@@ -11,11 +11,21 @@ const ensureLoggedIn = require('./public/scripts/login.js')
 
 const FlashcardController = require('./controllers/flashcardController');
 const DeckController      = require('./controllers/deckController');
+const UserController      = require('./controllers/userController');
 
 dotenv.config();
 const app  = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(session({
+    secret: 'secret',  // ⬅ Use a strong secret in production
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 // ———————————————————————————————————————————————————
 // Middleware
@@ -45,24 +55,13 @@ app.post('/add-deck',      DeckController.addDeck);
 app.post('/upload',        FlashcardController.uploadFlashcard);
 app.get('/get-flashcards', ensureLoggedIn, FlashcardController.getFlashcards);
 app.delete('/delete-flashcard', ensureLoggedIn, FlashcardController.deleteFlashcard);
+app.post('/user-register', UserController.registerUser);
 
 // Login endpoint
 app.post('/user-login', async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;
     const user = await require('./models/user').login(email, password);
-
-    // mark them as logged in
-    req.session.userId = user.id;
-    req.session.userEmail = user.email;
-
-    if (rememberMe) {
-      // persistent for 7 days
-      req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
-    } else {
-      // allow exactly one protected-page visit
-      req.session.oneTime = true;
-    }
 
     res.status(200).json({
       message: 'Login successful',
@@ -76,11 +75,6 @@ app.post('/user-login', async (req, res) => {
 
 
 
-// protect every .html except the login page
-app.get('/*.html', (req, res, next) => {
-  if (req.path === '/index.html') return next();
-  ensureLoggedIn(req, res, next);
-});
 
 // ———————————————————————————————————————————————————
 // Static + SPA fallback
@@ -90,9 +84,6 @@ app.use(express.static(staticPath));
 
 // any other route (e.g. for client-side routing)
 app.get('*', (req, res) => {
-  if (!req.session.userId) {
-    return res.redirect('/index.html');
-  }
   res.sendFile(path.join(staticPath, 'index.html'));
 });
 

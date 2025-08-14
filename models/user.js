@@ -72,6 +72,58 @@ static async login(email, password) {
       throw err;
     }
   }
+
+
+  static async register(email, password, subject1, subject2, subject3, subject4, subject5, subject6, subject7, subject8) {
+    try {
+      // 1. Hash the password
+      const hashedPassword = await argon2.hash(password);
+
+      // 2. Insert into Supabase
+      const { data, error } = await supabase
+        .from('users')
+        .insert({
+          email,
+          password: hashedPassword,
+          subject1,
+          subject2,
+          subject3,
+          subject4,
+          subject5,
+          subject6,
+          subject7,
+          subject8,
+          role: 'User' 
+        })
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('Supabase error during registration:', error);
+        throw error;
+      }
+
+      // 3. Return a new User instance
+      return new User(
+        data.id,
+        data.email,
+        data.password,
+        data.subject1,
+        data.subject2,
+        data.subject3,
+        data.subject4,
+        data.subject5,
+        data.subject6,
+        data.subject7,
+        data.subject8,
+        data.role
+      );
+
+    } catch (err) {
+      console.error('Error in User.register():', err);
+      throw err;
+    }
+  }
 }
 
 

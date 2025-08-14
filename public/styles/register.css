@@ -1,0 +1,92 @@
+/* Extra polish for register page */
+
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-8 { gap: 0.5rem; }
+.mr-6 { margin-right: 0.375rem; }
+
+/* Card entrance */
+.card-enter { animation: cardIn 520ms cubic-bezier(.2,.8,.2,1) both; }
+@keyframes cardIn {
+  from { transform: translateY(10px) scale(.98); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Particles background */
+.particles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.particles span {
+  position: absolute; width: 12px; height: 12px;
+  background: rgba(255,255,255,.12); border-radius: 50%;
+  filter: blur(1px); animation: drift 12s linear infinite;
+}
+.particles span:nth-child(1){ left:12%; top:18%; animation-duration: 11s; }
+.particles span:nth-child(2){ left:72%; top:8%;  animation-duration: 13s; }
+.particles span:nth-child(3){ left:85%; top:62%; animation-duration: 14s; }
+.particles span:nth-child(4){ left:22%; top:72%; animation-duration: 12s; }
+.particles span:nth-child(5){ left:48%; top:38%; animation-duration: 15s; }
+@keyframes drift {
+  0% { transform: translateY(0) translateX(0); opacity:.25; }
+  50%{ transform: translateY(-18px) translateX(6px); opacity:.55; }
+  100%{ transform: translateY(0) translateX(0); opacity:.25; }
+}
+
+/* Inputs with icons */
+.input-wrap { position: relative; display: block; }
+.input-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  opacity: .9; color: #fff;
+}
+.with-icon { padding-left: 2.25rem !important; }
+
+/* Section label */
+.section-label {
+  margin-top: .25rem; margin-bottom: .25rem; color: #fff;
+  font-weight: 600; display: flex; align-items: center;
+  opacity: .95;
+}
+
+/* Subject grid */
+.subject-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .75rem;
+}
+@media (min-width: 520px){
+  .subject-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Subject row animation */
+.fade-in-up {
+  animation: fadeUp .46s cubic-bezier(.2,.7,.2,1) var(--delay,0ms) both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Button micro-interaction */
+.tilt-on-hover { transition: transform .18s ease, opacity .18s ease; }
+.tilt-on-hover:hover { transform: translateY(-2px) rotate(-.25deg); opacity: .95; }
+
+/* Title icon flair */
+.title-icon { filter: drop-shadow(0 2px 12px rgba(0,0,0,.15)); }
+
+/* Make dropdown text black (in the open list and in the closed field) */
+select.login-input {
+  color: #000; /* text shown when the select is closed */
+}
+
+/* Options inside the opened dropdown panel */
+select.login-input option {
+  color: #000;                 /* main options */
+  background-color: #fff;      /* keeps panel white */
+}
+
+/* Optional: grey out the placeholder/disabled option */
+select.login-input option[disabled] {
+  color: rgba(0,0,0,0.6);
+}
+
+/* Optional: highlight selected option better */
+select.login-input option:checked {
+  background-color: #e6e6e6;
+}
